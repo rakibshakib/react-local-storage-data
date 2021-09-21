@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import Person from "./Components/Person/Person";
+// import Person from "./Components/Person/Person";
 
 function App() {
+  const [persons, setPerson] = useState([]);
+  useEffect(() => {
+    fetch(
+      "https://raw.githubusercontent.com/rakibshakib/fake-data-json/main/data.json"
+    )
+      .then((res) => res.json())
+      .then((data) => setPerson(data));
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>This is The User Data</h2>
+      <h2>Total Salary: </h2>
+      <div className="persons">
+        {persons.map((person) => (
+          <Person data={person} key={person.id} />
+        ))}
+      </div>
     </div>
   );
 }
